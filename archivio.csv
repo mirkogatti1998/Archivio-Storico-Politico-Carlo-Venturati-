@@ -1,4 +1,4 @@
-Titolo,Codice,Tipo,Volume,"Autore 1","Autore 2","Autore 3",Anno di pubblicazione,Luogo,Editore,Tags,Fondo
+Titolo,Codice,Tipo,Volume,"Autore 1","Autore 2","Autore 3",Anno di pubblicazione,Luogo,Editore,Tags,Fondo,pdf
 Almanacco socialista,01.1.AAVALM,Libro edito,,AAVV,,,1960,Milano,Edizioni Avanti!,"Politica,Socialismo",Venturati
 Le battaglie politico-ideologiche,01.1.AAVBAT,Libro edito,,AAVV,,,1978,Milano,Il Mondo,Politica,Venturati
 Le battaglie economiche,01.1.AAVBAT,Libro edito,,AAVV,,,1978,Milano,Il Mondo,"Economia,Politica",Venturati
@@ -447,4 +447,6 @@ Primo rapporto sull'inchiesta di massa sul terrorismo,01.6.SEZPRI,Studi e docume
 Per un trattato di pace con la Germania per scongiurare i pericoli di guerra,01.6.SINPER,Studi e documentazione di ricerca,,Sindacati e Lavoratori d'Europa,,,1959,,Conferenza dei Sindacati e dei Lavoratori d'Europa,"Politica,Esteri",Venturati
 Voltare pagina,02.1.SOFVOL,Libro edito,,"Sofri, Gianni",,,1979,Torino,Stampatori,Storia,Gallavresi
 
-Il Panettiere Partigiano,03.2.GATPAN,Libro autoprodotto,,"Gatti, Mirko",,,2023,Caravaggio,AFU Caravaggio,"Storia,Resistenza,Caravaggio",Stella
+Il Panettiere Partigiano,03.2.GATPAN,Libro autoprodotto,,"Gatti, Mirko",,,2023,Caravaggio,AFU Caravaggio,"Storia,Resistenza,Caravaggio",Stella,pdf/stella/03.2.GATPAN.pdf
+
+
