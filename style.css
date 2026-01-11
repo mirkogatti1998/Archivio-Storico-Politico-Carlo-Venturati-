@@ -1,14 +1,14 @@
 /* Minimal, leggibile, senza dipendenze — Tema "beige archivio" */
 
 :root{
-  --bg:#f3efe6;
-  --panel:#ede6d7;
-  --panel2:#e7decd;
-  --card:#f8f4eb;
-  --text:#2b2620;
-  --muted:#6b6256;
-  --border:#d6cbb6;
-  --link:#2f5e4e;
+  --bg:#f3efe6;          /* carta */
+  --panel:#ede6d7;       /* pannelli */
+  --panel2:#e7decd;      /* topbar leggermente più scura */
+  --card:#f8f4eb;        /* schede */
+  --text:#2b2620;        /* testo */
+  --muted:#6b6256;       /* secondario */
+  --border:#d6cbb6;      /* bordi */
+  --link:#2f5e4e;        /* verde archivio */
   --accent:#2f5e4e;
   --badge-bg:#e6dccb;
   --badge-text:#2b2620;
@@ -22,15 +22,29 @@ html, body{
   background:var(--bg);
   color:var(--text);
   margin:0;
+  padding:0;
+  overflow-x:hidden; /* blocca l'uscita orizzontale */
 }
 
+/* Tipografia base: clamp per evitare “testo enorme” su mobile */
 body{
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  font-size: clamp(14px, 1.6vw, 16px);
+  line-height: 1.5;
 }
+
+/* Link: niente blu default */
+a{
+  color:var(--link);
+  text-decoration:none;
+}
+a:visited{ color:var(--link); }
+a:hover{ color:var(--text); text-decoration:underline; }
 
 /* Top bar */
 .topbar{
   display:flex;
+  align-items:center;
   justify-content:space-between;
   padding:12px 16px;
   border-bottom:1px solid var(--border);
@@ -38,7 +52,8 @@ body{
   position:sticky; top:0; z-index:10;
 }
 
-.brand{display:flex; gap:10px; align-items:center}
+.brand{display:flex; align-items:center; gap:10px}
+.logo{font-size:20px}
 .title{font-weight:700}
 
 .topnav a{
@@ -46,6 +61,7 @@ body{
   text-decoration:none;
   margin-left:14px;
 }
+.topnav a:hover{color:var(--text)}
 
 /* Layout */
 .layout{
@@ -53,9 +69,11 @@ body{
   grid-template-columns: 320px 1fr;
   gap:14px;
   padding:14px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-/* Sidebar */
+/* Sidebar boxes */
 .sidebar .box{
   background:var(--panel);
   border:1px solid var(--border);
@@ -65,23 +83,69 @@ body{
   box-shadow: var(--shadow);
 }
 
-.box-title{font-weight:700; margin-bottom:10px}
-
-label{font-size:12px; color:var(--muted)}
-
-input, select{
-  width:100%;
-  padding:10px;
-  border-radius:10px;
-  border:1px solid var(--border);
+.box-title{
+  font-weight:700;
+  margin-bottom:10px;
 }
 
+label{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin:8px 0 6px;
+}
+
+.hint{
+  color:var(--muted);
+  font-size: 0.95em;
+  line-height:1.4;
+  overflow-wrap:anywhere; /* impedisce uscita testo */
+}
+
+/* Inputs */
+input[type="search"], select{
+  width:100%;
+  padding:10px 10px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:#fffaf0;
+  color:var(--text);
+  outline:none;
+  margin-bottom:10px;
+}
+input[type="search"]::placeholder{color:#8a7f70}
+
+/* Buttons */
 .btn{
   width:100%;
-  padding:10px;
+  padding:10px 10px;
   border-radius:10px;
   border:1px solid var(--border);
   background:#e3d7c2;
+  color:var(--text);
+  cursor:pointer;
+}
+.btn:hover{filter:brightness(0.98)}
+
+/* Fund list (sidebar): “rettangolini” distanziati */
+.fund-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.fund-list a{
+  display:block;
+  padding:10px 12px;
+  border-radius:10px;
+  color:var(--text);
+  text-decoration:none;
+  border:1px solid var(--border);
+  background:#fffaf0;
+  font-size:16px;
+  font-weight:700;
+}
+.fund-list a:hover{
+  filter:brightness(0.99);
 }
 
 /* Content */
@@ -94,106 +158,167 @@ input, select{
   box-shadow: var(--shadow);
 }
 
-/* Cards */
-.card{
-  background:var(--card);
-  border-radius:12px;
-  padding:14px;
-  border:1px solid var(--border);
-}
+.status{color:var(--muted); margin-bottom:10px}
 
 /* Tables */
 .grid{
   width:100%;
   border-collapse:collapse;
+  background:transparent;
 }
 
-.grid th, .grid td{
+.grid thead th{
+  text-align:left;
+  padding:10px;
+  background:var(--table-head);
+  border-bottom:1px solid var(--border);
+  color:var(--muted);
+  font-weight:600;
+  font-size:12px;
+}
+
+.grid td{
+  text-align:left;
   padding:10px;
   border-bottom:1px solid var(--border);
+  vertical-align:top;
 }
 
-/* Mobile */
-@media (max-width:768px){
-  .layout{grid-template-columns:1fr}
-  .fund-photo{max-width:100%}
-  table.grid{display:block; overflow-x:auto}
-}
-/* ===== FIX UI (link, fondi home, immagini) ===== */
-
-/* Link: niente blu default, niente schifo */
-a{
-  color: var(--link);
-  text-decoration: none;
-}
-a:visited{ color: var(--link); }
-a:hover{
-  color: var(--text);
-  text-decoration: underline;
+.grid tbody tr:nth-child(even){
+  background: rgba(255,250,240,.55);
 }
 
-/* Sidebar: i link dei fondi devono essere "rettangolini" distanziati */
-.fund-list{
-  display:flex;
-  flex-direction:column;
-  gap:8px;               /* distacco vero */
+.grid a{
+  color:var(--link);
+  text-decoration:none;
+  font-weight:600;
 }
-.fund-list a{
-  display:block;
-  padding:10px 12px;
-  border-radius:10px;
-  background:#fffaf0;
-  border:1px solid var(--border);
-  color:var(--text);
-  font-weight:700;
-}
-.fund-list a:hover{
-  filter:brightness(0.99);
-}
+.grid a:hover{text-decoration:underline}
 
-/* Home: badge fondi come pill (rettangolini) e NON attaccati */
+/* Badges */
 .badges{
   display:flex;
   flex-wrap:wrap;
-  gap:10px;              /* distacco orizzontale/verticale */
+  gap:10px;
 }
 .badge{
   display:inline-flex;
   align-items:center;
-  gap:6px;
+  font-size:12px;
+  padding:6px 12px;
   border-radius:999px;
   border:1px solid var(--border);
   background:var(--badge-bg);
   color:var(--badge-text);
-  text-decoration:none;
-}
-a.badge:hover{
-  text-decoration:none;
-  filter:brightness(0.98);
 }
 
-/* Se per caso in home hai link "nudi" dentro .card, li rendiamo pill */
-.card a:not(.badge):not(.btn){
-  color: var(--link);
+/* Badge fondi nella HOME */
+.fund-badge{
+  font-size: 15px;
+  font-weight: 800;
+  padding: 8px 12px;
 }
 
-/* Immagini: MAI più enormi su desktop */
+/* Card */
+.card{
+  border:1px solid var(--border);
+  background:var(--card);
+  border-radius:12px;
+  padding:14px;
+  box-shadow: var(--shadow);
+}
+.card h1{
+  margin:0 0 8px;
+  font-size: clamp(18px, 2.3vw, 26px);
+  line-height:1.2;
+}
+
+/* testo descrizioni fondi: leggibile e mai fuori schermo */
+.fund-text{
+  white-space: pre-wrap;
+  max-width: 72ch;
+  overflow-wrap:anywhere;
+  word-break: break-word;
+}
+
+/* immagini descrizioni fondi: MAI enormi */
 .fund-photo{
-  width: 100%;
-  height: auto;
-  max-width: 420px;      /* desktop: limite vero */
+  width:100%;
+  height:auto;
+  max-width: 420px;   /* desktop: limite vero */
   margin: 10px 0;
   display:block;
+  border-radius:10px;
+  border:1px solid var(--border);
 }
 
-/* Copertine libro: stesso stile */
+/* Qualsiasi immagine nelle card: sicurezza */
 .card img{
-  max-width: 100%;
-  height: auto;
+  max-width: 100% !important;
+  height: auto !important;
   display:block;
 }
 
-/* Mobile: ancora più piccole */
-@media (max-width:768px){
+/* Meta grid */
+.meta{
+  display:grid;
+  grid-template-columns: 160px 1fr;
+  gap:10px;
+  margin-top:10px;
+}
+.meta .k{color:var(--muted); font-size:12px}
+.meta .v{color:var(--text); overflow-wrap:anywhere; word-break:break-word}
+
+/* Footer */
+.footer{
+  padding:10px 16px;
+  color:var(--muted);
+  border-top:1px solid var(--border);
+  background: var(--panel);
+}
+
+/* ===== Mobile fix serio ===== */
+@media (max-width: 768px){
+
+  body{
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .layout{
+    grid-template-columns: 1fr;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  /* content sopra, sidebar sotto */
+  .content{ order: 1; padding: 10px; min-height: auto; }
+  .sidebar{ order: 2; }
+
+  .topbar{ padding: 10px 12px; }
+  .title{ font-size: 16px; }
+  .topnav a{ margin-left: 10px; font-size: 14px; }
+
+  .card{ padding: 12px; }
+  .card h1{ font-size: 20px; line-height: 1.2; }
+
+  /* immagini: più piccole */
   .fund-photo{ max-width: 240px; }
+
+  /* testo: piena larghezza */
+  .fund-text{ max-width: 100%; }
+
+  /* tabella scrollabile */
+  table.grid{
+    display:block;
+    width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  table.grid th, table.grid td{
+    white-space: nowrap;
+  }
+
+  /* scheda libro: meta a colonna */
+  .meta{ grid-template-columns: 1fr; }
 }
