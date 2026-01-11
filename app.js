@@ -191,7 +191,7 @@ function renderFund(fondo) {
       ${
         info
           ? `<div class="hint">${escapeHtml(info.subtitle || "")}</div>
-             <p style="margin-top:10px; white-space:pre-wrap">${escapeHtml(info.text || "")}</p>`
+             <div style="margin-top:10px; white-space:pre-wrap">${info.text || ""}</div>`
           : `<div class="hint">Descrizione del fondo non ancora inserita.</div>`
       }
 
