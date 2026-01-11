@@ -13,7 +13,7 @@ const FUND_INFO = {
   "Venturati": {
     subtitle: "Fondo Venturati",
     text: 
-<img src="images/venturati/carlo_venturati.jpg" style="max-width:300px; margin-bottom:10px">
+<img src="images/carlo_venturati.jpg" style="max-width:300px; margin-bottom:10px">
 `Carlo Venturati nacque a Caravaggio il 21/7/1921.
 Nel 1940, iscritto al primo anno della facoltà di chimica, venne chiamato sotto le armi. Fatto prigioniero in Albania, a Durazzo, il 10/9/1943, deportato in Austria, Polonia e Germania, il 7/4/1945 a Stahle venne liberato dalla 9A armata americana. Solo il 13/9/1945 fece ritorno a Caravaggio con negli occhi e nella mente gli orrori della guerra, della prigionia, della deportazione e subito si iscrisse al Partito Socialista Italiano.
 Cambiò anche corso di studi e già nel marzo del 1948 si laureò in giurisprudenza presso l’Università degli Studi di Milano per poi intraprendere la professione di avvocato.
