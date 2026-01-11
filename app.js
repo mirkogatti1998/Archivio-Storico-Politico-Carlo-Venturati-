@@ -215,11 +215,11 @@ function renderHome() {
     <div class="card">
       <h1>Archivio</h1>
       <div class="fund-text hint">
-Questo sito raccoglie i volumi dell’Archivio Storico Politico “Carlo Venturati”.
+Questo sito raccoglie i volumi, i documenti, le fotografie e i manifesti dell’Archivio Storico Politico “Carlo Venturati”.
 I materiali sono organizzati per fondi (provenienza/donazione).
 
 Puoi:
-- entrare in un fondo per sfogliare i libri
+- entrare in un fondo per sfogliare i titoli
 - usare ricerca, filtro autore e tag
       </div>
     </div>
@@ -228,7 +228,7 @@ Puoi:
   const fundsHtml = `
     <div class="card" style="margin-top:12px">
       <h1>Fondi</h1>
-      <p class="hint">Seleziona un fondo per sfogliare i libri. Puoi anche usare la ricerca a sinistra.</p>
+      <p class="hint">Seleziona un fondo per sfogliare i titoli. Puoi anche usare la ricerca a sinistra.</p>
       <div class="badges" style="margin-top:10px">
         ${FUNDS.map(f => `<a class="badge fund-badge" href="#/fondo/${encodeURIComponent(f)}">${escapeHtml(f)}</a>`).join("")}
       </div>
