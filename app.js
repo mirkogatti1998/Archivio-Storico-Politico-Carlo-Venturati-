@@ -153,31 +153,36 @@ function applyFilters(list) {
 function renderHome() {
   setStatus("");
   const view = el("view");
-  view.innerHTML = `
+
+  const aboutHtml = `
+    <div class="card">
+      <h1>Archivio</h1>
+      <p class="hint" style="white-space:pre-wrap">
+Questo sito raccoglie i volumi dell’Archivio Storico Politico Carlo Venturati.
+I materiali sono organizzati per fondi (provenienza/donazione). Puoi:
+- entrare in un fondo per sfogliare i libri
+- usare ricerca, filtro autore e tag
+      </p>
+      <div class="hint" style="margin-top:8px">
+        Fondi presenti: <b>${FUNDS.map(f => escapeHtml(f)).join(", ")}</b>
+      </div>
+    </div>
+  `;
+
+  const fundsHtml = `
     <div class="card">
       <h1>Fondi</h1>
       <p class="hint">Seleziona un fondo per sfogliare i libri. Puoi anche usare la ricerca a sinistra.</p>
       <div class="badges" style="margin-top:10px">
-        ${FUNDS.map(f => `<a class="badge" href="#/fondo/${encodeURIComponent(f)}">${escapeHtml(f)}</a>`).join("")}
+        ${FUNDS.map(f => `<a class="badge fund-badge" href="#/fondo/${encodeURIComponent(f)}">${escapeHtml(f)}</a>`).join("")}
       </div>
     </div>
   `;
+
+  view.innerHTML = aboutHtml + fundsHtml;
+
   const c = el("count");
   if (c) c.textContent = `${RECORDS.length} record totali`;
-}
-
-function renderFondiInfo() {
-  setStatus("");
-  const view = el("view");
-  view.innerHTML = `
-    <div class="card">
-      <h1>Cosa sono i fondi</h1>
-      <p>Qui puoi spiegare cosa intendi per “fondo”, da dove arrivano i materiali, e le convenzioni usate (codici, tag, criteri).</p>
-      <p>Modifica questo testo in <code>renderFondiInfo()</code> dentro <code>app.js</code>.</p>
-    </div>
-  `;
-  const c = el("count");
-  if (c) c.textContent = "";
 }
 
 function renderFund(fondo) {
