@@ -363,4 +363,72 @@ async function loadData() {
   setStatus("");
 }
 
-loadData();
+async function loadData() {
+  try {
+    setStatus("Caricamento dati…");
+
+    // 1) PapaParse presente?
+    if (!window.Papa) {
+      setStatus("Errore: PapaParse non è caricato (CDN bloccato o offline).");
+      return;
+    }
+
+    // 2) Costruisco URL assoluta robusta (evita casi strani con hash, percorsi, ecc.)
+    const csvUrl = new URL(DATA_FILE, window.location.href).toString();
+
+    const res = await fetch(csvUrl, { cache: "no-store" });
+
+    if (!res.ok) {
+      setStatus(`Errore: non trovo ${DATA_FILE} (HTTP ${res.status}). URL: ${csvUrl}`);
+      return;
+    }
+
+    const csvText = await res.text();
+
+    const parsed = Papa.parse(csvText, {
+      header: true,
+      skipEmptyLines: true,
+      dynamicTyping: false,
+    });
+
+    if (parsed.errors?.length) console.warn("PapaParse errors:", parsed.errors);
+
+    const rows = parsed.data;
+
+    RECORDS = rows.map(row => {
+      const titolo  = norm(row.titolo ?? row.Titolo ?? row["Titolo"]);
+      const codice  = norm(row.codice ?? row.Codice ?? row["Codice"]);
+      const tipo    = norm(row.tipo ?? row.Tipo ?? row["Tipo"]);
+      const volume  = norm(row.volume ?? row.Volume ?? row["Volume"]);
+
+      const anno = norm(
+        row.anno ?? row.Anno ?? row["Anno"] ??
+        row["Anno di pubblicazione"] ?? row["Anno di pubblica"] ?? row["Anno di pubblicazione "]
+      );
+
+      const luogo   = norm(row.luogo ?? row.Luogo ?? row["Luogo"]);
+      const editore = norm(row.editore ?? row.Editore ?? row["Editore"]);
+
+      const fondo = norm(row.fondo ?? row.Fondo ?? row["Fondo"] ?? row["Fondo (from Fondo)"]);
+
+      const tagRaw = row.tag ?? row.tags ?? row.Tags ?? row["Tags"] ?? "";
+      const tags = splitTags(tagRaw);
+
+      const autori = splitAuthors(row);
+
+      const id = codice || ("row-" + Math.random().toString(36).slice(2));
+
+      return { id, titolo, codice, tipo, volume, autori, anno, luogo, editore, tags, fondo };
+    }).filter(r => r.titolo || r.codice);
+
+    buildIndex();
+    wireEvents();
+    render();
+    setStatus("");
+
+  } catch (err) {
+    console.error(err);
+    setStatus("Errore durante il caricamento. Apri la console (F12) per vedere il messaggio preciso.");
+  }
+}
+
