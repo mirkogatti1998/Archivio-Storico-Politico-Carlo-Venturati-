@@ -219,14 +219,21 @@ function renderHome() {
 
   const aboutHtml = `
     <div class="card">
-      <h1>Archivio</h1>
+      <h1>Archivio Storico-Politico Carlo Venturati</h1>
       <div class="fund-text hint">
 Questo sito raccoglie i volumi, i documenti, le fotografie e i manifesti dell’Archivio Storico Politico “Carlo Venturati”.
+L'Archivio inizia a comporsi nel 2023 su impulso di Amici della Festa de L'Unità di Caravaggio, Partito Democratico - Circolo di Caravaggio e Circolo Arci di Caravaggio a seguito della donazione del fondo Venturati, da cui prende il nome.
+La finalità è quella di recuperare e conservare libri, documentazione, fotografie, manifesti e qualsiasi materiale che aiuti a mantenere viva la memoria di quello che è stata la sinistra a Caravaggio e nella Bassa bergamasca. 
+Raccoglie fondi provenienti da militanti, associazioni culturali, forze politiche e personalità politiche. 
+È consultabile in sede, presso la Casa del Popolo di Caravaggio (BG), via Fermo Stella 10. Si consiglia appuntamento, scrivendo a pdcaravaggio@gmail.com oppure circoloarcicaravaggio@gmail.com.
+Se hai un fondo e ritieni di poterlo rendere pubblico, scrivici!
 I materiali sono organizzati per fondi (provenienza/donazione).
 
 Puoi:
 - entrare in un fondo per sfogliare i titoli
 - usare ricerca, filtro autore e tag
+
+La sistemazione dell'Archivio è in corso. Nel tempo saranno resi disponibili altri record, pdf e fotografie. Se vuoi aiutare a completare l'Archivio, contattaci!
       </div>
     </div>
   `;
