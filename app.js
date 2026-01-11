@@ -12,13 +12,13 @@ const DATA_FILE = "archivio.csv";
 const FUND_INFO = {
   "Venturati": {
     subtitle: "Fondo Venturati",
-    text: `Il fondo è stato donato dalla Famiglia di Carlo Venuturati.
-
-Carlo Venturati nacque a Caravaggio il 21/7/1921.
+    text: `Carlo Venturati nacque a Caravaggio il 21/7/1921.
 Nel 1940, iscritto al primo anno della facoltà di chimica, venne chiamato sotto le armi. Fatto prigioniero in Albania, a Durazzo, il 10/9/1943, deportato in Austria, Polonia e Germania, il 7/4/1945 a Stahle venne liberato dalla 9A armata americana. Solo il 13/9/1945 fece ritorno a Caravaggio con negli occhi e nella mente gli orrori della guerra, della prigionia, della deportazione e subito si iscrisse al Partito Socialista Italiano.
 Cambiò anche corso di studi e già nel marzo del 1948 si laureò in giurisprudenza presso l’Università degli Studi di Milano per poi intraprendere la professione di avvocato.
 Per circa trent’anni, dal 1952, fu consigliere comunale prima a Caravaggio e poi a Treviglio, dove era andato a risiedere con la famiglia, e occupò posti chiave nel PSI: consigliere provinciale, segretario della Sezione di Treviglio, segretario della Federazione di Bergamo, membro dei probi viri del partito.
-Morì in Spagna, improvvisamente, l’11 maggio 1984, durante una breve vacanza.`
+Morì in Spagna, improvvisamente, l’11 maggio 1984, durante una breve vacanza. 
+
+Il fondo è stato donato dalla Famiglia di Carlo Venuturati. Il fondo è il più consistente posseduto dall'Archivio che, difatti, è intitolato a Venturati. È costituito per la maggior parte di opere edite di stampo politico e filosofico-politico, soprattutto sul tema del socialismo italiano.`
   },
   "Gallavresi": { subtitle: "Fondo Gallavresi", text: `Scrivi qui la descrizione.` },
   "Stella":     { subtitle: "Fondo Stella",     text: `Scrivi qui la descrizione.` },
