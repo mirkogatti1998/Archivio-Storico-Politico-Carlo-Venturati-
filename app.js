@@ -1,5 +1,5 @@
 // Archivio statico: carica archivio.csv dal repo e costruisce:
-// - Home con lista fondi
+// - Home con descrizione archivio + lista fondi
 // - Pagine per fondo con filtri autore/tag + ricerca
 // - Scheda libro cliccabile
 //
@@ -9,6 +9,7 @@
 const DATA_FILE = "archivio.csv";
 
 // Descrizioni dei fondi (chiavi = valore esatto della colonna "Fondo" nel CSV, senza spazi finali)
+// Qui NON mettere HTML: solo testo + (opzionale) percorso immagine.
 const FUND_INFO = {
   "Venturati": {
     subtitle: "Fondo Venturati",
@@ -63,6 +64,7 @@ function splitTags(s) {
 }
 
 function splitAuthors(row) {
+  // prende tutte le colonne che iniziano con "Autore" (case-insensitive)
   const keys = Object.keys(row);
   const a = [];
   for (const k of keys) {
@@ -71,6 +73,7 @@ function splitAuthors(row) {
       if (v) a.push(v);
     }
   }
+  // fallback: qualsiasi colonna che contiene "autore"
   if (a.length === 0) {
     for (const k of keys) {
       if (k.toLowerCase().includes("autore")) {
@@ -85,23 +88,6 @@ function splitAuthors(row) {
 function setStatus(msg) {
   const s = el("status");
   if (s) s.textContent = msg;
-}
-
-function renderSidebarAbout() {
-  // Questo riempie un box nella sidebar con id="aboutBox"
-  const box = el("aboutBox");
-  if (!box) return;
-
-  box.innerHTML = `
-    <div class="box-title">Archivio</div>
-    <div class="hint" style="white-space:pre-wrap">
-Questo sito raccoglie i volumi dell’Archivio Storico Politico Carlo Venturati.
-I materiali sono organizzati per fondi (provenienza/donazione).
-    </div>
-    <div class="hint" style="margin-top:8px">
-      <b>Fondi:</b> ${FUNDS.map(f => escapeHtml(f)).join(", ")}
-    </div>
-  `;
 }
 
 function buildIndex() {
@@ -124,9 +110,6 @@ function buildIndex() {
       .map(f => `<a href="#/fondo/${encodeURIComponent(f)}">${escapeHtml(f)}</a>`)
       .join("");
   }
-
-  // Box descrizione archivio sopra "Fondi"
-  renderSidebarAbout();
 
   // Filtri
   const aSel = el("authorFilter");
@@ -167,11 +150,27 @@ function applyFilters(list) {
   });
 }
 
+/** HOME: descrizione archivio + lista fondi (descrizione sopra) */
 function renderHome() {
   setStatus("");
   const view = el("view");
 
-  view.innerHTML = `
+  const aboutHtml = `
+    <div class="card">
+      <h1>Archivio</h1>
+      <div class="hint" style="white-space:pre-wrap">
+Questo sito raccoglie i volumi dell’Archivio Storico Politico Carlo Venturati.
+I materiali sono organizzati per fondi (provenienza/donazione).
+
+Usa la ricerca e i filtri a sinistra, oppure entra in un fondo per sfogliare i libri.
+      </div>
+      <div class="hint" style="margin-top:10px">
+        <b>Fondi presenti:</b> ${FUNDS.map(f => escapeHtml(f)).join(", ")}
+      </div>
+    </div>
+  `;
+
+  const fundsHtml = `
     <div class="card">
       <h1>Fondi</h1>
       <p class="hint">Seleziona un fondo per sfogliare i libri. Puoi anche usare la ricerca a sinistra.</p>
@@ -180,6 +179,9 @@ function renderHome() {
       </div>
     </div>
   `;
+
+  // descrizione SOPRA al box fondi
+  view.innerHTML = aboutHtml + fundsHtml;
 
   const c = el("count");
   if (c) c.textContent = `${RECORDS.length} record totali`;
