@@ -8,6 +8,40 @@
 
 const DATA_FILE = "archivio.csv";
 
+const FUND_INFO = {
+  "Venturati": {
+    subtitle: "Fondo Venturati",
+    text: `Il fondo è stato donato dalla Famiglia di Carlo Venuturati. 
+    
+    Carlo Venturati nacque a Caravaggio il 21/7/1921.
+Nel 1940, iscritto al primo anno della facoltà di chimica, venne chiamato sotto le armi. Fatto prigioniero in Albania, a Durazzo, il 10/9/1943, deportato in Austria,  Polonia e  Germania, il 7/4/1945 a Stahle venne liberato dalla 9A armata americana. Solo il 13/9/1945 fece ritorno a Caravaggio con negli occhi e nella mente gli orrori della guerra, della prigionia, della deportazione e subito si iscrisse al Partito Socialista Italiano.
+Cambiò anche corso di studi e già nel marzo del 1948 si laureò in giurisprudenza presso l’Università degli Studi di Milano per poi intraprendere la professione di avvocato.  
+Per circa trent’anni, dal 1952, fu consigliere comunale prima a Caravaggio e poi a Treviglio, dove era andato a risiedere con la famiglia, e occupò posti chiave nel PSI: consigliere provinciale, segretario della Sezione di Treviglio, segretario della Federazione di Bergamo, membro dei probi viri del partito.
+Morì in Spagna, improvvisamente, l’11maggio 1984, durante una breve vacanza`
+  },
+  "Gallavresi": {
+    subtitle: "Fondo Gallavresi",
+    text: `Scrivi qui la descrizione.`
+  },
+  "Stella": {
+    subtitle: "Fondo Stella",
+    text: `Scrivi qui la descrizione.`
+  },
+  "Castelli": {
+    subtitle: "Fondo Castelli",
+    text: `Scrivi qui la descrizione.`
+  },
+  "Stuani": {
+    subtitle: "Fondo Stuani",
+    text: `Scrivi qui la descrizione.`
+  },
+  "Rossoni": {
+    subtitle: "Fondo Rossoni",
+    text: `Scrivi qui la descrizione.`
+  }
+};
+
+
 let RECORDS = [];
 let FUNDS = [];
 let AUTHORS = [];
@@ -107,9 +141,24 @@ function applyFilters(list){
 function renderHome(){
   setStatus("");
   const view = el("view");
-  view.innerHTML = `
-    <div class="card">
-      <h1>Fondi</h1>
+ const info = FUND_INFO[fondo];
+const infoHtml = info
+  ? `<div class="card" style="margin-bottom:12px">
+       <h1>${escapeHtml(fondo)}</h1>
+       <div class="hint">${escapeHtml(info.subtitle || "")}</div>
+       <p style="margin-top:10px; white-space:pre-wrap">${escapeHtml(info.text || "")}</p>
+     </div>`
+  : `<div class="card" style="margin-bottom:12px">
+       <h1>${escapeHtml(fondo)}</h1>
+       <div class="hint">Descrizione del fondo non ancora inserita.</div>
+     </div>`;
+
+view.innerHTML = `
+  ${infoHtml}
+  <div class="card">
+    <div class="hint">Clicca un titolo per aprire la scheda. Usa filtri e ricerca a sinistra.</div>
+    ...
+`;
       <p class="hint">Seleziona un fondo per sfogliare i libri. Puoi anche usare la ricerca a sinistra.</p>
       <div class="badges" style="margin-top:10px">
         ${FUNDS.map(f=>`<a class="badge" href="#/fondo/${encodeURIComponent(f)}">${escapeHtml(f)}</a>`).join("")}
