@@ -39,6 +39,7 @@ Nella maggior parte è costituito da documentazione interna e organizzativa o ma
   "Castelli": { subtitle: "Fondo Castelli", text: `Scrivi qui la descrizione.` },
   "Stuani":   { subtitle: "Fondo Stuani",   text: `Scrivi qui la descrizione.` },
   "Rossoni":  { subtitle: "Fondo Rossoni",  text: `Scrivi qui la descrizione.` },
+  "Crapabela":  { subtitle: "Fondo Crapabela",  text: `Giuseppe Pisoni, detto "Crapabela", è stato segretario politico del Partito Comunista Italiano - Sezione di Caravaggio...` },
 };
 
 let RECORDS = [];
@@ -319,6 +320,7 @@ function renderFund(fondo) {
             <th>Anno</th>
             <th>Tag</th>
             <th>Codice</th>
+            <th>Foto</th>
           </tr>
         </thead>
         <tbody>
@@ -329,6 +331,7 @@ function renderFund(fondo) {
               <td>${escapeHtml(r.anno)}</td>
               <td><div class="badges">${r.tags.map(t => `<span class="badge">${escapeHtml(t)}</span>`).join("")}</div></td>
               <td>${escapeHtml(r.codice)}</td>
+              <td>${r.immagine ? `<img class="thumb" src="${escapeAttr(r.immagine)}" alt="" loading="lazy" onerror="this.style.display='none'">` : ``}</td>
             </tr>
           `).join("")}
         </tbody>
@@ -356,6 +359,8 @@ function renderBook(id) {
   view.innerHTML = `
     <div class="card">
       <h1>${escapeHtml(r.titolo)}</h1>
+      
+${r.immagine ? `<img class="photo-full" src="${escapeAttr(r.immagine)}" alt="" loading="lazy" onerror="this.style.display='none'">` : ``}
 
       ${coverPath ? `<img class="fund-photo" src="${escapeAttr(coverPath)}" alt="" onerror="this.style.display='none'">` : ``}
 
@@ -460,6 +465,7 @@ async function loadData() {
 
   RECORDS = rows.map(row => {
     const titolo  = norm(row.titolo ?? row.Titolo ?? row["Titolo"]);
+    const immagine = norm(row.immagine ?? row.Immagine ?? row.foto ?? row.Foto ?? row.Media ?? row.media ?? "")
     const codice  = norm(row.codice ?? row.Codice ?? row["Codice"]);
     const tipo    = norm(row.tipo ?? row.Tipo ?? row["Tipo"]);
     const volume  = norm(row.volume ?? row.Volume ?? row["Volume"]);
@@ -484,7 +490,7 @@ async function loadData() {
 
     const id = codice || ("row-" + Math.random().toString(36).slice(2));
 
-    return { id, titolo, codice, tipo, volume, autori, anno, luogo, editore, tags, fondo, pdf };
+    return { id, titolo, codice, tipo, volume, autori, anno, luogo, editore, tags, fondo, pdf, immagine };
   }).filter(r => r.titolo || r.codice);
 
   buildIndex();
