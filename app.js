@@ -1,4 +1,4 @@
-// Archivio statico: carica archivio.csv dal repo e costruisce:
+// Archivio statico: carica archivio.csv dal repo e costruisce: 
 // - Home con descrizione + fondi + (se filtri/ricerca attivi) risultati globali
 // - Pagine per fondo con filtri autore/tag + ricerca
 // - Scheda libro cliccabile + bottone "Apri PDF" se presente nel CSV (colonna PDF)
