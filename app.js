@@ -183,85 +183,50 @@ function renderHome() {
   setStatus("");
   const view = el("view");
 
-  // stats
   const total = RECORDS.length;
+  const fondiCount = FUNDS.length;
 
-  // conteggio fondi e record per fondo
-  const counts = new Map();
-  for (const r of RECORDS) {
-    const f = r.fondo || "";
-    if (!f) continue;
-    counts.set(f, (counts.get(f) || 0) + 1);
-  }
-
-  // scegli una foto “hero”: se esiste una immagine in FUND_INFO o la prima immagine record
-  const fallbackHero =
+  // scegli una foto: prima da FUND_INFO, altrimenti una immagine qualsiasi dai record
+  const heroImg =
     Object.values(FUND_INFO).find(x => x?.image)?.image ||
     (RECORDS.find(r => r.immagine)?.immagine ?? "");
 
-  const fondiCount = FUNDS.length;
-
   view.innerHTML = `
-    <div class="card">
-      <h1>Archivio Storico-Politico<br/>Carlo Venturati</h1>
-      <div class="hint">
-        Libri, documenti, fotografie e manifesti per ricostruire la memoria politica e culturale
-        di Caravaggio e della Bassa Bergamasca.
+    <div class="hero-photo">
+      ${heroImg ? `<img src="${escapeAttr(heroImg)}" alt="" onerror="this.remove()">` : ``}
+
+      <div class="hero-caption">
+        <h1>Archivio Storico-Politico<br/>Carlo Venturati</h1>
+        <p>Libri, documenti, fotografie e manifesti per ricostruire la memoria politica e culturale di Caravaggio e della Bassa Bergamasca.</p>
+        <a class="hero-cta" href="#/archivio">Entra nell’Archivio →</a>
       </div>
     </div>
 
-    <div class="grid-3" style="margin-top:14px">
+    <div class="home-stats grid-3">
       <div class="stat">
         <div class="k">Record</div>
         <div class="v">${total}</div>
         <div class="p">Materiali catalogati e consultabili in sede. La sistemazione è in corso.</div>
       </div>
-      <div class="stat">
+
+      <a class="stat clickable" href="#/archivio" style="display:block; color:inherit; text-decoration:none">
         <div class="k">Fondi</div>
         <div class="v">${fondiCount}</div>
-        <div class="p">Raccolte organizzate per provenienza/donazione.</div>
-      </div>
+        <div class="p">Raccolte organizzate per provenienza/donazione. Clicca per aprire l’Archivio.</div>
+      </a>
+
       <div class="stat">
         <div class="k">Consultazione</div>
         <div class="v">Su appuntamento</div>
         <div class="p">Casa del Popolo di Caravaggio (BG) — via Fermo Stella 10</div>
       </div>
     </div>
-
-    <div class="hero-tile" style="margin-top:14px" onclick="location.hash='#/archivio'">
-      ${fallbackHero ? `<img src="${escapeAttr(fallbackHero)}" alt="" onerror="this.remove()">` : ``}
-      <div class="hero-overlay">
-        <a class="hero-cta" href="#/archivio">Entra nell’Archivio →</a>
-      </div>
-    </div>
-
-    <div class="accordion" style="margin-top:14px">
-      <details open>
-        <summary>Cos’è l’Archivio</summary>
-        <div class="acc-body">
-          Questo sito raccoglie i volumi, i documenti, le fotografie e i manifesti dell’Archivio Storico-Politico “Carlo Venturati”.
-          L’Archivio inizia a comporsi nel 2023, a seguito della donazione del fondo Venturati.
-        </div>
-      </details>
-      <details>
-        <summary>Come consultare</summary>
-        <div class="acc-body">
-          Consultazione in sede su appuntamento: pdcaravaggio@gmail.com · circoloarcicaravaggio@gmail.com
-        </div>
-      </details>
-      <details>
-        <summary>Disclaimer</summary>
-        <div class="acc-body">
-          Immagini e documenti sono pubblicati ai soli fini di documentazione storica e culturale.
-          Su richiesta oscuriamo fotografie che ritraggono persone identificabili.
-        </div>
-      </details>
-    </div>
   `;
 
   const c = el("count");
   if (c) c.textContent = `${RECORDS.length} record totali`;
 }
+
 
 
 
@@ -399,41 +364,55 @@ function parseRoute() {
 
 function render() {
   const route = parseRoute();
+
+  // HOME: layout senza sidebar
+  document.body.classList.toggle("is-home", route.name === "home");
+
   if (route.name === "home") return renderHome();
+  if (route.name === "archivio") return renderArchivio();
   if (route.name === "fondo") return renderFund(route.fondo);
   if (route.name === "libro") return renderBook(route.id);
   if (route.name === "storia") return renderStoria();
+  return renderHome();
 }
+
 
 function wireEvents() {
   window.addEventListener("hashchange", render);
 
-  el("q")?.addEventListener("input", render);
+  const goArchivio = () => {
+    const h = location.hash || "#/";
+    if (h === "#/" || h === "") location.hash = "#/archivio";
+  };
+
+  // Sidebar search
+  el("q")?.addEventListener("input", () => { render(); });
   el("authorFilter")?.addEventListener("change", render);
   el("tagFilter")?.addEventListener("change", render);
 
+  // TOPBAR search (nuovo)
+  el("topQ")?.addEventListener("input", () => {
+    // copia valore nella search sidebar, poi vai su Archivio
+    if (el("q")) el("q").value = el("topQ").value;
+    goArchivio();
+    render();
+  });
+
+  // se l'utente scrive nella sidebar, aggiorna anche top
+  el("q")?.addEventListener("input", () => {
+    if (el("topQ")) el("topQ").value = el("q").value;
+    render();
+  });
+
   el("clearFilters")?.addEventListener("click", () => {
     if (el("q")) el("q").value = "";
+    if (el("topQ")) el("topQ").value = "";
     if (el("authorFilter")) el("authorFilter").value = "";
     if (el("tagFilter")) el("tagFilter").value = "";
-
-    // ripristina tendine complete (per HOME)
-    const aSel = el("authorFilter");
-    const tSel = el("tagFilter");
-    if (aSel) {
-      aSel.innerHTML =
-        `<option value="">(tutti)</option>` +
-        AUTHORS.map(a => `<option value="${escapeAttr(a)}">${escapeHtml(a)}</option>`).join("");
-    }
-    if (tSel) {
-      tSel.innerHTML =
-        `<option value="">(tutti)</option>` +
-        TAGS.map(t => `<option value="${escapeAttr(t)}">${escapeHtml(t)}</option>`).join("");
-    }
-
     render();
   });
 }
+
 
 async function loadData() {
   setStatus("Caricamento dati…");
