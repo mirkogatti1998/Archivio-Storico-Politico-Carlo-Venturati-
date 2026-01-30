@@ -1013,3 +1013,23 @@ table, th, td {
     display: none;
   }
 }
+
+/* Tabelle: non devono mai sfondare */
+.grid{
+  width: 100%;
+  max-width: 100%;
+  table-layout: fixed; /* chiave: evita che un titolo lunghissimo allarghi tutto */
+}
+
+/* Consenti a capo aggressivo nelle celle */
+.grid th, .grid td{
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Mobile: abilita scroll orizzontale come rete di sicurezza */
+@media (max-width: 680px){
+  .content{ overflow-x: hidden; } /* evita page-wide scroll */
+  .grid{ display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .grid thead, .grid tbody, .grid tr{ width: 100%; }
+}
