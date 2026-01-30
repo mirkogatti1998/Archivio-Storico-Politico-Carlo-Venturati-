@@ -718,3 +718,54 @@ table.grid tbody tr td:last-child{ padding-right: 16px; }
   padding: 6px 2px;
   margin: 8px 0 10px;
 }
+/* ==========================
+   FIX IMMAGINI (anti-esplosione)
+   ========================== */
+
+/* Safety net: nessuna immagine deve mai sfondare il contenitore */
+img{
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 1) FOTO PRESENTAZIONE FONDO (pagina #/fondo/...) */
+.fund-photo{
+  width: 100%;
+  max-height: 60vh;          /* blocca le verticali enormi */
+  object-fit: contain;       /* NON taglia: mostra tutta l’immagine */
+  background: rgba(0,0,0,.25);
+  margin: 12px 0;
+}
+
+/* 2) MINIATURE NELLA TABELLA (pagina fondo, colonna "Foto") */
+.grid td img.thumb{
+  width: 84px;               /* fisso: non può esplodere */
+  height: 84px;
+  object-fit: cover;         /* qui invece taglia bene */
+  background: rgba(0,0,0,.25);
+}
+
+/* impedisce che la cella foto diventi gigantesca */
+.grid td:last-child{
+  width: 110px;
+  white-space: nowrap;
+}
+
+/* 3) FOTO NELLA SCHEDA RECORD (pagina #/libro/...) */
+.photo-full{
+  width: 100%;
+  max-height: 75vh;          /* mai oltre quasi tutta la finestra */
+  object-fit: contain;
+  background: rgba(0,0,0,.25);
+  margin: 12px 0;
+}
+
+/* Mobile: miniature un filo più piccole */
+@media (max-width: 680px){
+  .grid td img.thumb{
+    width: 68px;
+    height: 68px;
+  }
+  .grid td:last-child{ width: 90px; }
+}
