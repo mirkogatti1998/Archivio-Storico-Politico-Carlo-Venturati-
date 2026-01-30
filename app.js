@@ -269,11 +269,15 @@ function renderHome() {
         </details>
 
         <details>
-          <summary>Disclaimer</summary>
-          <div class="acc-body">
-            l'Archivio raccoglie anche materiale fotografico rinvenuto alla Casa del Popolo o donato da privati afferenti a realtà politiche. Si tratta di immagini di momenti di vita politica. Abbiamo deciso di caricare tutte le immagini che raffigurano certamente momenti di vita politica <i>collettiva</i>, mentre per quelle raffiguranti un primo piano che non abbiamo a che fare con materiale elettorale abbiamo lasciato solo i metadati. Tuttavia, se qualcuno volesse oscurare una fotografia che lo ritrae, non esiti a contattarci. Immagini e documenti sono pubblicati ai soli fini di documentazione storica e culturale.</b> 
-          </div>
-        </details>
+  <summary>Disclaimer</summary>
+  <div class="acc-body">
+    L'Archivio raccoglie anche materiale fotografico rinvenuto alla Casa del Popolo o donato da privati afferenti a realtà politiche.
+    Si tratta di immagini di momenti di vita politica. Abbiamo deciso di caricare tutte le immagini che raffigurano certamente momenti di vita politica
+    <i>collettiva</i>, mentre per quelle raffiguranti un primo piano che non abbiamo a che fare con materiale elettorale abbiamo lasciato solo i metadati.
+    Tuttavia, se qualcuno volesse oscurare una fotografia che lo ritrae, non esiti a contattarci.
+    Immagini e documenti sono pubblicati ai soli fini di documentazione storica e culturale.
+  </div>
+</details>
       </div>
     </div>
   `;
