@@ -186,7 +186,6 @@ function renderHome() {
   const total = RECORDS.length;
   const fondiCount = FUNDS.length;
 
-  // scegli una foto: prima da FUND_INFO, altrimenti una immagine qualsiasi dai record
   const heroImg =
     Object.values(FUND_INFO).find(x => x?.image)?.image ||
     (RECORDS.find(r => r.immagine)?.immagine ?? "");
@@ -202,30 +201,69 @@ function renderHome() {
       </div>
     </div>
 
-    <div class="home-stats grid-3">
-      <div class="stat">
-        <div class="k">Record</div>
-        <div class="v">${total}</div>
-        <div class="p">Materiali catalogati e consultabili in sede. La sistemazione è in corso.</div>
+    <div class="home-inner">
+      <div class="home-stats grid-3">
+        <div class="stat">
+          <div class="k">Record</div>
+          <div class="v">${total}</div>
+          <div class="p">Materiali catalogati e consultabili in sede. La sistemazione è in corso.</div>
+        </div>
+
+        <a class="stat clickable" href="#/archivio" style="display:block; color:inherit; text-decoration:none">
+          <div class="k">Fondi</div>
+          <div class="v">${fondiCount}</div>
+          <div class="p">Raccolte organizzate per provenienza/donazione. Clicca per aprire l’Archivio.</div>
+        </a>
+
+        <div class="stat">
+          <div class="k">Consultazione</div>
+          <div class="v">Su appuntamento</div>
+          <div class="p">Casa del Popolo di Caravaggio (BG) — via Fermo Stella 10</div>
+        </div>
       </div>
 
-      <a class="stat clickable" href="#/archivio" style="display:block; color:inherit; text-decoration:none">
-        <div class="k">Fondi</div>
-        <div class="v">${fondiCount}</div>
-        <div class="p">Raccolte organizzate per provenienza/donazione. Clicca per aprire l’Archivio.</div>
-      </a>
+      <div class="accordion" style="margin-top:14px">
+        <details open>
+          <summary>Il progetto</summary>
+          <div class="acc-body">
+            Questo sito raccoglie i volumi, i documenti, le fotografie e i manifesti dell’Archivio Storico-Politico “Carlo Venturati”.
+            L’Archivio inizia a comporsi nel 2023 su impulso delle realtà che animano la Casa del Popolo, a seguito della donazione del fondo Venturati.
+          </div>
+        </details>
 
-      <div class="stat">
-        <div class="k">Consultazione</div>
-        <div class="v">Su appuntamento</div>
-        <div class="p">Casa del Popolo di Caravaggio (BG) — via Fermo Stella 10</div>
+        <details>
+          <summary>Cos’è l’Archivio</summary>
+          <div class="acc-body">
+            La finalità è recuperare e conservare materiali (libri, documenti, foto, manifesti) utili a mantenere viva la memoria storica e culturale
+            della sinistra a Caravaggio e nella Bassa bergamasca.
+          </div>
+        </details>
+
+        <details>
+          <summary>Come consultare</summary>
+          <div class="acc-body">
+            Consultazione in sede su appuntamento, presso la Casa del Popolo di Caravaggio (BG), via Fermo Stella 10.<br>
+            Contatti: <a href="mailto:pdcaravaggio@gmail.com">pdcaravaggio@gmail.com</a> ·
+            <a href="mailto:circoloarcicaravaggio@gmail.com">circoloarcicaravaggio@gmail.com</a>
+          </div>
+        </details>
+
+        <details>
+          <summary>Disclaimer</summary>
+          <div class="acc-body">
+            Immagini e documenti sono pubblicati ai soli fini di documentazione storica e culturale.
+            Su richiesta oscuriamo fotografie che ritraggono persone identificabili.
+          </div>
+        </details>
       </div>
     </div>
   `;
 
+  // IMPORTANTISSIMO: non scrivere #count in home
   const c = el("count");
-  if (c) c.textContent = `${RECORDS.length} record totali`;
+  if (c) c.textContent = "";
 }
+
 
 
 
