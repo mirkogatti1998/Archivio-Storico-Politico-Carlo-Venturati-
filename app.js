@@ -178,131 +178,140 @@ function applyFilters(list) {
 }
 
 /* HOME: mostra fondi + (se filtri/ricerca attivi) risultati globali */
+/* HOME: vetrina (niente tabelloni). La ricerca resta nella sidebar e porta ai fondi/libri. */
 function renderHome() {
   setStatus("");
   const view = el("view");
 
-  const hasQuery =
-    norm(el("q")?.value) ||
-    norm(el("authorFilter")?.value) ||
-    norm(el("tagFilter")?.value);
+  // Statistiche rapide
+  const total = RECORDS.length;
 
-  const filtered = applyFilters(RECORDS);
-
-  // In HOME: se filtri attivi, restringi le tendine alle opzioni utili.
-  // Se filtri disattivi, ripristina elenco completo.
-  if (hasQuery) {
-    const authorSet = new Set();
-    const tagSet = new Set();
-    for (const r of filtered) {
-      for (const a of r.autori) authorSet.add(a);
-      for (const t of r.tags) tagSet.add(t);
-    }
-
-    const currentA = norm(el("authorFilter")?.value);
-    const currentT = norm(el("tagFilter")?.value);
-
-    const aSel = el("authorFilter");
-    const tSel = el("tagFilter");
-
-    const aList = [...authorSet].sort((a,b)=>a.localeCompare(b,"it"));
-    const tList = [...tagSet].sort((a,b)=>a.localeCompare(b,"it"));
-
-    if (aSel) {
-      aSel.innerHTML =
-        `<option value="">(tutti)</option>` +
-        aList.map(a => `<option value="${escapeAttr(a)}">${escapeHtml(a)}</option>`).join("");
-      if (currentA) aSel.value = currentA;
-    }
-
-    if (tSel) {
-      tSel.innerHTML =
-        `<option value="">(tutti)</option>` +
-        tList.map(t => `<option value="${escapeAttr(t)}">${escapeHtml(t)}</option>`).join("");
-      if (currentT) tSel.value = currentT;
-    }
-  } else {
-    // ripristina opzioni complete (senza toccare i fondi)
-    const aSel = el("authorFilter");
-    const tSel = el("tagFilter");
-    if (aSel) {
-      aSel.innerHTML =
-        `<option value="">(tutti)</option>` +
-        AUTHORS.map(a => `<option value="${escapeAttr(a)}">${escapeHtml(a)}</option>`).join("");
-    }
-    if (tSel) {
-      tSel.innerHTML =
-        `<option value="">(tutti)</option>` +
-        TAGS.map(t => `<option value="${escapeAttr(t)}">${escapeHtml(t)}</option>`).join("");
-    }
+  // Conteggio record per fondo
+  const counts = new Map();
+  for (const r of RECORDS) {
+    const f = r.fondo || "";
+    if (!f) continue;
+    counts.set(f, (counts.get(f) || 0) + 1);
   }
 
-  const aboutHtml = `
-    <div class="card">
-      <h1>Archivio Storico-Politico Carlo Venturati</h1>
-      <div class="fund-text hint">
-Questo sito raccoglie i volumi, i documenti, le fotografie e i manifesti dell’Archivio Storico Politico “Carlo Venturati”.
-L'Archivio inizia a comporsi nel 2023 su impulso di Amici della Festa de L'Unità di Caravaggio, Partito Democratico - Circolo di Caravaggio e Circolo Arci di Caravaggio a seguito della donazione del fondo Venturati, da cui prende il nome.
-La finalità è quella di recuperare e conservare libri, documentazione, fotografie, manifesti e qualsiasi materiale che aiuti a mantenere viva la memoria di quello che è stata la sinistra a Caravaggio e nella Bassa bergamasca. 
-Principalmente, raccoglie fondi provenienti da militanti, associazioni culturali, forze politiche e personalità politiche. 
-È consultabile in sede, presso la Casa del Popolo di Caravaggio (BG), via Fermo Stella 10. Si consiglia appuntamento, scrivendo a pdcaravaggio@gmail.com oppure circoloarcicaravaggio@gmail.com.
-Allo stesso modo, se hai un fondo affine ai nostri e vuoi renderlo pubblicamente consultabile, scrivici!
+  // Micro-descrizioni fondi (prima riga del testo, max ~140 chars)
+  function fundTeaser(name) {
+    const info = FUND_INFO?.[name];
+    const raw = (info?.text || "").toString().trim().replace(/\s+/g, " ");
+    if (!raw) return "Descrizione in preparazione.";
+    const short = raw.length > 160 ? raw.slice(0, 160).trim() + "…" : raw;
+    return short;
+  }
 
-<b>Disclaimer: l'Archivio raccoglie anche materiale fotografico rinvenuto alla Casa del Popolo o donato da privati afferenti a realtà politiche. Si tratta di immagini di momenti di vita politica. Abbiamo deciso di caricare tutte le immagini che raffigurano certamente momenti di vita politica <i>collettiva</i>, mentre per quelle raffiguranti un primo piano che non abbiamo a che fare con materiale elettorale abbiamo lasciato solo i metadati. Tuttavia, se qualcuno volesse oscurare una fotografia che lo ritrae, non esiti a contattarci. Immagini e documenti sono pubblicati ai soli fini di documentazione storica e culturale.</b> 
+  const hero = `
+    <div class="hero">
+      <h1>Archivio Storico-Politico <br/>Carlo Venturati</h1>
+      <div class="sub">
+        Libri, documenti, fotografie e manifesti per ricostruire la memoria politica e culturale
+        di Caravaggio e della Bassa Bergamasca.
+      </div>
 
-La sistemazione dell'Archivio è in corso. Nel tempo saranno resi disponibili altri record, pdf e fotografie. Se vuoi aiutare a completare l'Archivio, contattaci!
-
-I materiali sono organizzati per fondi (provenienza/donazione).
-
+      <div class="hero-actions">
+        <a class="btn-primary" href="#/fondo/${encodeURIComponent(FUNDS[0] || "")}">
+          Esplora i fondi →
+        </a>
+        <a class="btn-ghost" href="#/storia">La Casa del Popolo</a>
       </div>
     </div>
   `;
 
-  const fundsHtml = `
-    <div class="card" style="margin-top:12px">
-      <h1>Fondi</h1>
-      <p class="hint">Seleziona un fondo per sfogliare i titoli. Puoi anche usare la ricerca a sinistra.</p>
-      <div class="badges" style="margin-top:10px">
-        ${FUNDS.map(f => `<a class="badge fund-badge" href="#/fondo/${encodeURIComponent(f)}">${escapeHtml(f)}</a>`).join("")}
+  const stats = `
+    <div class="section">
+      <div class="grid-3">
+        <div class="stat">
+          <div class="k">Record</div>
+          <div class="v">${total}</div>
+          <div class="p">Materiali catalogati e consultabili in sede. La sistemazione è in corso.</div>
+        </div>
+
+        <div class="stat">
+          <div class="k">Fondi</div>
+          <div class="v">${FUNDS.length}</div>
+          <div class="p">Raccolte organizzate per provenienza/donazione.</div>
+        </div>
+
+        <div class="stat">
+          <div class="k">Consultazione</div>
+          <div class="v">Su appuntamento</div>
+          <div class="p">
+            Casa del Popolo di Caravaggio (BG) — via Fermo Stella 10<br/>
+            Contatti: <a href="mailto:pdcaravaggio@gmail.com">pdcaravaggio@gmail.com</a> ·
+            <a href="mailto:circoloarcicaravaggio@gmail.com">circoloarcicaravaggio@gmail.com</a>
+          </div>
+        </div>
       </div>
     </div>
   `;
 
-  const resultsHtml = hasQuery ? `
-    <div class="card" style="margin-top:12px">
-      <h1>Risultati</h1>
-      <div class="hint">${filtered.length} record trovati</div>
-
-      <table class="grid" style="margin-top:12px">
-        <thead>
-          <tr>
-            <th>Titolo</th>
-            <th>Autore</th>
-            <th>Anno</th>
-            <th>Fondo</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${filtered.slice(0, 200).map(r => `
-            <tr>
-              <td><a href="#/libro/${encodeURIComponent(r.id)}">${escapeHtml(r.titolo)}</a></td>
-              <td>${escapeHtml(r.autori.join("; "))}</td>
-              <td>${escapeHtml(r.anno)}</td>
-              <td><a href="#/fondo/${encodeURIComponent(r.fondo)}">${escapeHtml(r.fondo)}</a></td>
-            </tr>
-          `).join("")}
-        </tbody>
-      </table>
-
-      ${filtered.length > 200 ? `<div class="hint" style="margin-top:10px">Mostro solo i primi 200 risultati. Raffina la ricerca.</div>` : ``}
+  const fundsGrid = `
+    <div class="section">
+      <h2 class="section-title">Fondi</h2>
+      <div class="fund-grid">
+        ${FUNDS.map(f => {
+          const c = counts.get(f) || 0;
+          return `
+            <a class="fund-card" href="#/fondo/${encodeURIComponent(f)}">
+              <div class="name">${escapeHtml(f)}</div>
+              <div class="desc">${escapeHtml(fundTeaser(f))}</div>
+              <div class="meta-line">
+                <span class="pill">${c} record</span>
+                <span class="pill">Apri →</span>
+              </div>
+            </a>
+          `;
+        }).join("")}
+      </div>
     </div>
-  ` : ``;
+  `;
 
-  view.innerHTML = aboutHtml + fundsHtml + resultsHtml;
+  const project = `
+    <div class="section">
+      <h2 class="section-title">Il progetto</h2>
+
+      <div class="accordion">
+        <details open>
+          <summary>Cos’è l’Archivio</summary>
+          <div class="acc-body">
+            Questo sito raccoglie i volumi, i documenti, le fotografie e i manifesti dell’Archivio Storico-Politico “Carlo Venturati”.
+            L’Archivio inizia a comporsi nel 2023, a seguito della donazione del fondo Venturati, e si propone di conservare materiali utili
+            a mantenere viva la memoria storica della sinistra a Caravaggio e nella Bassa bergamasca.
+          </div>
+        </details>
+
+        <details>
+          <summary>Come consultare e come contribuire</summary>
+          <div class="acc-body">
+            L’Archivio è consultabile in sede, presso la Casa del Popolo di Caravaggio (BG), via Fermo Stella 10.
+            Si consiglia appuntamento scrivendo a <a href="mailto:pdcaravaggio@gmail.com">pdcaravaggio@gmail.com</a>
+            oppure <a href="mailto:circoloarcicaravaggio@gmail.com">circoloarcicaravaggio@gmail.com</a>.
+            Se hai un fondo affine ai nostri e vuoi renderlo pubblicamente consultabile, scrivici.
+          </div>
+        </details>
+
+        <details>
+          <summary>Disclaimer immagini e documenti</summary>
+          <div class="acc-body">
+            L’Archivio raccoglie anche materiale fotografico rinvenuto alla Casa del Popolo o donato da privati afferenti a realtà politiche.
+            Si tratta di immagini di momenti di vita politica. Abbiamo pubblicato le immagini che raffigurano certamente momenti di vita politica collettiva;
+            per i primi piani non riconducibili a materiale elettorale abbiamo lasciato solo i metadati. Se qualcuno volesse oscurare una fotografia che lo ritrae,
+            può contattarci. Immagini e documenti sono pubblicati ai soli fini di documentazione storica e culturale.
+          </div>
+        </details>
+      </div>
+    </div>
+  `;
+
+  view.innerHTML = hero + stats + fundsGrid + project;
 
   const c = el("count");
   if (c) c.textContent = `${RECORDS.length} record totali`;
 }
+
 
 function renderFund(fondo) {
   const view = el("view");
