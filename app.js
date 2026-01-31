@@ -390,6 +390,7 @@ function renderBook(id) {
       ${metaRow("Autore/i", r.autori?.length ? r.autori.join("; ") : "")}
       ${metaRow("Anno", r.anno)}
       ${metaRow("Luogo", r.luogo)}
+      ${metaRow("Collocazione", r.Collocazione)}
       ${metaRow("Editore", r.editore)}
     </div>
   `.trim();
@@ -560,7 +561,7 @@ async function loadData() {
 
     const luogo   = norm(row.luogo ?? row.Luogo ?? row["Luogo"]);
     const editore = norm(row.editore ?? row.Editore ?? row["Editore"]);
-
+ const collocazione = norm(row.collocazione ?? row.Collocazione ?? row["Collocazione"]);
     const fondo = norm(row.fondo ?? row.Fondo ?? row["Fondo"] ?? row["Fondo (from Fondo)"]);
 
     const tagRaw = row.tag ?? row.tags ?? row.Tags ?? row["Tags"] ?? "";
@@ -573,7 +574,7 @@ async function loadData() {
 
     const id = codice || ("row-" + Math.random().toString(36).slice(2));
 
-    return { id, titolo, codice, tipo, volume, autori, anno, luogo, editore, tags, fondo, pdf, immagine };
+    return { id, titolo, codice, tipo, volume, autori, anno, luogo, editore, tags, fondo, pdf, immagine, collocazione };
   }).filter(r => r.titolo || r.codice);
 
   buildIndex();
