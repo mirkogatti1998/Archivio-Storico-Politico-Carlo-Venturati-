@@ -1037,16 +1037,19 @@ table, th, td {
   display: flex;
   align-items: center;
   gap: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand:visited {
+  color: inherit;
+}
+
+.brand:hover {
+  text-decoration: none;
 }
 
 .logo {
-  height: 32px;   /* regola qui la dimensione */
+  height: 32px;
   width: auto;
-}
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none; /* toglie la sottolineatura */
-  color: inherit;        /* mantiene il colore del testo */
 }
