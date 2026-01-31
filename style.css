@@ -1033,3 +1033,13 @@ table, th, td {
   .grid{ display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .grid thead, .grid tbody, .grid tr{ width: 100%; }
 }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  height: 32px;   /* regola qui la dimensione */
+  width: auto;
+}
