@@ -261,9 +261,9 @@ function renderHome() {
         </details>
 
         <details>
-          <summary>Come consultare</summary>
+          <summary>Consultazione e utilizzo</summary>
           <div class="acc-body">
-            Consultazione in sede su appuntamento, presso la Casa del Popolo di Caravaggio (BG), via Fermo Stella 10.<br>
+            La consultazione dei materiali è possibile online per le immagini catalogate e in sede per il fondo librario e documentale non scannerizzato. Si consiglia l'appuntamento. Le immagini e i documenti accessibili direttamente dal presente sito possono essere utilizzati per fini di ricerca, didattici e culturali, a condizione che vengano sempre citati i metadati e la fonte, ovvero Archivio Storico-Politico "Carlo Venturati" - Caravaggio (BG).<br>
             Contatti: <a href="mailto:pdcaravaggio@gmail.com">pdcaravaggio@gmail.com</a> ·
             <a href="mailto:circoloarcicaravaggio@gmail.com">circoloarcicaravaggio@gmail.com</a>
           </div>
