@@ -32,7 +32,15 @@ Nella maggior parte è costituito da documentazione interna e organizzativa o ma
 
   "Castelli": { subtitle: "Fondo Castelli", text: `Scrivi qui la descrizione.` },
   "Ogliari": { subtitle: "Fondo Ogliari", text: `Domenico Ogliari è stato per anni un importante dirigente del Partito Comunista Italiano - sezione di Caravaggio. Ha ricoperto, principalmente, mansioni di contabilità, come la tesoreria del Partito e la gestione dell'Immobiliare Stella 80, una delle realtà che hanno avuto la proprietà della Casa del Popolo. È, quindi, tra le persone che hanno avuto un ruolo fondamentale nel mantenere questo sogno vivo.
-Il fondo è costituito principalmente di materiale interno dell'organizzazione comunista e riferito alla gestione della sede.` },
+Il fondo è costituito principalmente di materiale interno dell'organizzazione comunista e riferito alla gestione della sede.
+Struttura del fondo:
+  I. Faldone "Sede" (1968-1985)
+      1. fascicolo "Gestione sede. Varie
+      2. fascicolo "Documentazioni di privati. Varie"
+      3. fascicolo "Documentazione tecnica riguardante la ristrutturazione della Casa del Popolo"
+      4. fascicolo "Acquisto della Casa del Popolo da parte del PCI - Sezione di Caravaggio"
+      
+      `},
   "Stuani":   { subtitle: "Fondo Stuani",   text: `Scrivi qui la descrizione.` },
   "Rossoni":  { subtitle: "Fondo Rossoni",  text: `Scrivi qui la descrizione.` },
   "Crapabela":  { subtitle: "Fondo Crapabela",  text: `Giuseppe Pisoni, detto "Crapabela", è stato segretario politico del Partito Comunista Italiano - Sezione di Caravaggio negli anni dell'acquisto e sistemazione della Casa del Popolo. È stato lui e il suo gruppo, quindi, il primo a credere in questo progetto comunitario.
