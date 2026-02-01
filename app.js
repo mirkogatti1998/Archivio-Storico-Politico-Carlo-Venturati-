@@ -268,9 +268,9 @@ function renderHome() {
         </a>
       </div>
       <div class="rings">
-        ${ringHtml("Patrimonio librario", libriCount, totalAll, "Tipi: “libro edito” + “libro autoprodotto”")}
-        ${ringHtml("Patrimonio documentale", docCount, totalAll, "Tutto ciò che non è libro o fotografia")}
-        ${ringHtml("Patrimonio fotografico", fotoCount, totalAll, "Tipo: “fotografia”")}
+        ${ringHtml("Patrimonio librario", libriCount, totalAll)}
+        ${ringHtml("Patrimonio documentale", docCount, totalAll)}
+        ${ringHtml("Patrimonio fotografico", fotoCount, totalAll)}
       </div>
       <div class="accordion" style="margin-top:14px">
         <details open>
