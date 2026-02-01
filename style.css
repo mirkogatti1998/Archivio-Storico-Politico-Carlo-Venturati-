@@ -1133,76 +1133,31 @@ main.content .card.prose {
   }
 }
 
-/* ===== HOME: 3 diagrammi patrimonio ===== */
-.rings {
+/* ===== HOME: pannello unico per i 3 ring ===== */
+.ring-panel{
+  background: linear-gradient(180deg, var(--panel), var(--panel2));
+  box-shadow: var(--shadowSoft);
+  padding: 14px;
+}
+
+/* i 3 ring dentro: mobile in colonna, desktop in riga */
+.rings{
   display: grid;
-  gap: 16px;
-  margin-top: 14px;
+  gap: 14px;
   grid-template-columns: 1fr;
 }
 
-@media (min-width: 900px) {
-  .rings {
+@media (min-width: 900px){
+  .rings{
     grid-template-columns: repeat(3, 1fr);
+    align-items: stretch;
   }
 }
 
-.ring-card {
-  background: linear-gradient(180deg, var(--panel), var(--panel2));
-  border-radius: var(--radius); /* = 0, come le altre box */
-  padding: 16px;
-  box-shadow: var(--shadowSoft);
-}
-
-/* layout interno */
-.ring {
-  display: grid;
-  grid-template-columns: 92px 1fr;
-  gap: 14px;
-  align-items: center;
-}
-
-/* cerchio esterno */
-.ring-circle {
-  width: 92px;
-  height: 92px;
-  border-radius: 50%;
-  position: relative;
-
-  /* anello: parte bianca + parte scura */
-  background:
-    conic-gradient(
-      #fff calc(var(--p) * 1turn),
-      rgba(255,255,255,0.15) 0
-    );
-}
-
-/* buco centrale = stesso colore della box */
-.ring-circle::after {
-  content: "";
-  position: absolute;
-  inset: 16px;              /* spessore anello */
-  border-radius: 50%;
-  background: linear-gradient(180deg, var(--panel), var(--panel2));
-}
-
-/* testi */
-.ring-meta .k {
-  font-size: 12px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  opacity: .75;
-  margin-bottom: 6px;
-}
-
-.ring-meta .v {
-  font-size: 22px;
-  font-weight: 900;
-  line-height: 1.1;
-}
-
-.ring-meta .p {
-  margin-top: 6px;
-  font-size: 13px;
-  opacity: .8;
+/* i singoli "ring-card" NON devono più sembrare box autonome */
+.ring-card{
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  padding: 0;
 }
